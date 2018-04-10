@@ -7,7 +7,8 @@ install:
   - npm install
 
 script:
+  - npm run lint
   - npm run test
 
 after_success:
-  - 'npm run merge-report && cat coverage/lcov.info | ./node_modules/.bin/coveralls'
+  - 'npm run coverage'
