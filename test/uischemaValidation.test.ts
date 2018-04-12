@@ -1,38 +1,29 @@
 /* tslint:disable:max-file-line-count */
-
 import { validate } from '../src/validation';
-import {
-  schemaRule,
-  uischemaCategorization,
-  uischemaControl,
-  uischemaGroup,
-  uischemaHorizontalLayout,
-  uischemaVerticalLayout
-} from './exampleUISchemas/validSchemas';
-import { uiMetaSchema } from '../src/ui-metaschema';
-import * as _ from 'lodash';
+import * as valid from './exampleUISchemas/validSchemas';
+import { uiMetaSchema } from '../src/models/ui-metaschema';
 const validator = validate(uiMetaSchema);
 
 test('validates horizontal layout', () => {
-  expect(validator(uischemaHorizontalLayout)).toEqual([]);
+  expect(validator(valid.uischemaHorizontalLayout)).toEqual([]);
 });
 
 test('validates horizontal layout with rule', () => {
-  const uischema = {...uischemaHorizontalLayout, ...schemaRule };
+  const uischema = {...valid.uischemaHorizontalLayout, ...valid.schemaRule };
   expect(validator(uischema)).toEqual([]);
 });
 
 test('validates vertical layout', () => {
-  expect(validator(uischemaVerticalLayout)).toEqual([]);
+  expect(validator(valid.uischemaVerticalLayout)).toEqual([]);
 });
 
 test('validates vertical layout with rule', () => {
-  const uischema = {...uischemaVerticalLayout, ...schemaRule };
+  const uischema = {...valid.uischemaVerticalLayout, ...valid.schemaRule };
   expect(validator(uischema)).toEqual([]);
 });
 
 test('validates categorization layout and category element', () => {
-  expect(validator(uischemaCategorization)).toEqual([]);
+  expect(validator(valid.uischemaCategorization)).toEqual([]);
 });
 
 test('validates categorization layout and category element with rule', () => {
@@ -49,7 +40,7 @@ test('validates categorization layout and category element with rule', () => {
             scope: '#/properties/name'
           }
         ],
-        ...schemaRule
+        ...valid.schemaRule
       }
     ]
   };
@@ -57,11 +48,11 @@ test('validates categorization layout and category element with rule', () => {
 });
 
 test('validates group layout', () => {
-  expect(validator(uischemaGroup)).toEqual([]);
+  expect(validator(valid.uischemaGroup)).toEqual([]);
 });
 
 test('validates control element', () => {
-  expect(validator(uischemaControl)).toEqual([]);
+  expect(validator(valid.uischemaControl)).toEqual([]);
 });
 
 test('validates SHOW effect of rule', () => {
@@ -76,7 +67,7 @@ test('validates SHOW effect of rule', () => {
     }
   };
 
-  const uischema = {...uischemaHorizontalLayout, ...rule };
+  const uischema = {...valid.uischemaHorizontalLayout, ...rule };
   expect(validator(uischema)).toEqual([]);
 });
 
@@ -92,7 +83,7 @@ test('validates DISABLE effect of rule', () => {
     }
   };
 
-  const uischema = {...uischemaHorizontalLayout, ...rule };
+  const uischema = {...valid.uischemaHorizontalLayout, ...rule };
   expect(validator(uischema)).toEqual([]);
 });
 
@@ -108,7 +99,7 @@ test('validates ENABLE effect of rule', () => {
     }
   };
 
-  const uischema = {...uischemaHorizontalLayout, ...rule };
+  const uischema = {...valid.uischemaHorizontalLayout, ...rule };
   expect(validator(uischema)).toEqual([]);
 });
 
@@ -128,7 +119,7 @@ test('validates control element, label type boolean', () => {
 });
 
 test('validates control element, label type string', () => {
-  expect(validator(uischemaControl)).toEqual([]);
+  expect(validator(valid.uischemaControl)).toEqual([]);
 });
 
 test('validates control element, label type object', () => {
@@ -149,7 +140,34 @@ test('validates control element, label type object', () => {
   expect(validator(uischema)).toEqual([]);
 });
 
-test('invalid control element, invalid label', () => {
+test('validates control element, complex options property', () => {
+  const uischema = {
+    type: 'HorizontalLayout',
+    elements: [
+      {
+        type: 'Control',
+        label: 'Occupation',
+        scope: '#/properties/occupation',
+        options: {
+          array: ['Accountant', 'Engineer', 'Freelancer', 'Journalism'],
+          boolean: true,
+          integer: 1,
+          number: 0.1,
+          object: {},
+          string: 'string'
+        }
+      }
+    ]
+  };
+  const errors = validator(uischema);
+  expect(errors).toEqual([]);
+});
+
+test('validates complex uischema', () => {
+  expect(validator(valid.uischemaComplex)).toEqual([]);
+});
+
+test('invalid control element, layout label must be string', () => {
   const uischema = {
     type: 'HorizontalLayout',
     elements: [
@@ -163,10 +181,10 @@ test('invalid control element, invalid label', () => {
     ]
   };
   const errors = validator(uischema);
-  expect(errors[0].message).toEqual('should be string');
+  expect(errors).not.toEqual([]);
 });
 
-test('invalid control element, label with additional properties', () => {
+test('invalid control element, label object does not allow additional properties', () => {
   const uischema = {
     type: 'HorizontalLayout',
     elements: [
@@ -182,10 +200,10 @@ test('invalid control element, label with additional properties', () => {
     ]
   };
   const errors = validator(uischema);
-  expect(errors[0].message).toEqual('should be string');
+  expect(errors).not.toEqual([]);
 });
 
-test('invalid vertical layout, missing type', () => {
+test('invalid vertical layout, layout type does not exist', () => {
   const uischema = {
     elements: [
       {
@@ -195,21 +213,21 @@ test('invalid vertical layout, missing type', () => {
     ]
   };
   const errors = validator(uischema);
-  expect(errors[0].message).toEqual('should have required property \'type\'');
+  expect(errors).not.toEqual([]);
 });
 
-test('invalid vertical layout, missing elements', () => {
+test('invalid vertical layout, missing layout elements', () => {
   const uischema = {
     type: 'VerticalLayout'
   };
-  expect(validator(uischema)[0].message).toEqual('should have required property \'elements\'');
+  const errors = validator(uischema);
+  expect(errors).not.toEqual([]);
 });
 
-test('invalid vertical layout, missing both type and elements', () => {
+test('invalid layout, empty uischema', () => {
   const uischema = {};
   const errors = validator(uischema);
-  expect(errors[0].message).toEqual('should have required property \'type\'');
-  expect(errors[1].message).toEqual('should have required property \'elements\'');
+  expect(errors).not.toEqual([]);
 });
 
 test('invalid layout type', () => {
@@ -223,10 +241,10 @@ test('invalid layout type', () => {
     ]
   };
   const errors = validator(uischema);
-  expect(errors[0].message).toEqual('should be equal to one of the allowed values');
+  expect(errors).not.toEqual([]);
 });
 
-test('invalid control element, invalid type', () => {
+test('invalid control element, invalid element type', () => {
   const uischema = {
     type: 'HorizontalLayout',
     elements: [
@@ -238,10 +256,10 @@ test('invalid control element, invalid type', () => {
     ]
   };
   const errors = validator(uischema);
-  expect(errors[0].message).toEqual('should be equal to one of the allowed values');
+  expect(errors).not.toEqual([]);
 });
 
-test('invalid control element, missing type', () => {
+test('invalid control element, missing element type', () => {
   const uischema = {
     type: 'HorizontalLayout',
     elements: [
@@ -252,10 +270,10 @@ test('invalid control element, missing type', () => {
     ]
   };
   const errors = validator(uischema);
-  expect(errors[0].message).toEqual('should have required property \'type\'');
+  expect(errors).not.toEqual([]);
 });
 
-test('invalid control element, missing scope', () => {
+test('invalid control element, missing Control scope', () => {
   const uischema = {
     type: 'HorizontalLayout',
     elements: [
@@ -265,10 +283,10 @@ test('invalid control element, missing scope', () => {
     ]
   };
   const errors = validator(uischema);
-  expect(errors[0].message).toEqual('should have required property \'scope\'');
+  expect(errors).not.toEqual([]);
 });
 
-test('invalid control element, invalid scope', () => {
+test('invalid control element, scope does not match pattern', () => {
   const uischema = {
     type: 'HorizontalLayout',
     elements: [
@@ -279,10 +297,10 @@ test('invalid control element, invalid scope', () => {
     ]
   };
   const errors = validator(uischema);
-  expect(errors[0].message).toEqual('should match pattern "^#\\/properties\\/{1}"');
+  expect(errors).not.toEqual([]);
 });
 
-test('invalid control element, invalid options type', () => {
+test('invalid control element, options of Control must be type of object', () => {
   const uischema = {
     type: 'HorizontalLayout',
     elements: [
@@ -295,31 +313,10 @@ test('invalid control element, invalid options type', () => {
     ]
   };
   const errors = validator(uischema);
-  expect(errors[0].message).toEqual('should be object');
+  expect(errors).not.toEqual([]);
 });
 
-test('invalid control element, invalid suggestion type', () => {
-  const uischema = {
-    type: 'HorizontalLayout',
-    elements: [
-      {
-        type: 'Control',
-        label: 'Occupation',
-        scope: '#/properties/occupation',
-        suggestion: {
-          Accountant: 'Accountant',
-          Engineer: 'Engineer',
-          Freelancer: 'Freelancer',
-          Journalism: 'Journalism'
-        }
-      }
-    ]
-  };
-  const errors = validator(uischema);
-  expect(errors[0].message).toEqual('should be array');
-});
-
-test('invalid rule, missing effect', () => {
+test('invalid rule, missing rule effect', () => {
   const uischema = {
     type: 'HorizontalLayout',
     elements: [
@@ -338,10 +335,10 @@ test('invalid rule, missing effect', () => {
     ]
   };
   const errors = validator(uischema);
-  expect(errors[0].message).toEqual('should have required property \'effect\'');
+  expect(errors).not.toEqual([]);
 });
 
-test('invalid rule, missing condition', () => {
+test('invalid rule, missing rule condition', () => {
   const uischema = {
     type: 'HorizontalLayout',
     elements: [
@@ -356,10 +353,10 @@ test('invalid rule, missing condition', () => {
     ]
   };
   const errors = validator(uischema);
-  expect(errors[0].message).toEqual('should have required property \'condition\'');
+  expect(errors).not.toEqual([]);
 });
 
-test('invalid rule, invalid effect value', () => {
+test('invalid rule, invalid value for rule effect', () => {
   const uischema = {
     type: 'HorizontalLayout',
     elements: [
@@ -379,10 +376,10 @@ test('invalid rule, invalid effect value', () => {
     ]
   };
   const errors = validator(uischema);
-  expect(errors[0].message).toEqual('should be equal to one of the allowed values');
+  expect(errors).not.toEqual([]);
 });
 
-test('invalid rule, missing type of condition', () => {
+test('invalid rule, type of condition is missing', () => {
   const uischema = {
     type: 'HorizontalLayout',
     elements: [
@@ -401,10 +398,10 @@ test('invalid rule, missing type of condition', () => {
     ]
   };
   const errors = validator(uischema);
-  expect(errors[0].message).toEqual('should have required property \'type\'');
+  expect(errors).not.toEqual([]);
 });
 
-test('invalid rule, missing scope of condition', () => {
+test('invalid rule, scope of condition is missing', () => {
   const uischema = {
     type: 'HorizontalLayout',
     elements: [
@@ -423,10 +420,10 @@ test('invalid rule, missing scope of condition', () => {
     ]
   };
   const errors = validator(uischema);
-  expect(errors[0].message).toEqual('should have required property \'scope\'');
+  expect(errors).not.toEqual([]);
 });
 
-test('invalid rule, missing expected value of condition', () => {
+test('invalid rule, expected value of condition is missing', () => {
   const uischema = {
     type: 'HorizontalLayout',
     elements: [
@@ -445,10 +442,10 @@ test('invalid rule, missing expected value of condition', () => {
     ]
   };
   const errors = validator(uischema);
-  expect(errors[0].message).toEqual('should have required property \'expectedValue\'');
+  expect(errors).not.toEqual([]);
 });
 
-test('invalid rule, invalid condition type', () => {
+test('invalid rule, condition type must be LEAF', () => {
   const uischema = {
     type: 'HorizontalLayout',
     elements: [
@@ -468,33 +465,10 @@ test('invalid rule, invalid condition type', () => {
     ]
   };
   const errors = validator(uischema);
-  expect(errors[0].message).toEqual('should be equal to one of the allowed values');
+  expect(errors).not.toEqual([]);
 });
 
-test('invalid rule, invalid effect value', () => {
-  const uischema = {
-    type: 'HorizontalLayout',
-    elements: [
-      {
-        type: 'Control',
-        label: 'Occupation',
-        scope: '#/properties/occupation',
-        rule: {
-          effect: 'Test',
-          condition: {
-            type: 'LEAF',
-            scope: '#/properties/alive',
-            expectedValue: true
-          }
-        }
-      }
-    ]
-  };
-  const errors = validator(uischema);
-  expect(errors[0].message).toEqual('should be equal to one of the allowed values');
-});
-
-test('invalid rule, invalid expected value of condition', () => {
+test('invalid rule, expected value of condition must be string,integer,number or boolean', () => {
   const uischema = {
     type: 'HorizontalLayout',
     elements: [
@@ -514,10 +488,10 @@ test('invalid rule, invalid expected value of condition', () => {
     ]
   };
   const errors = validator(uischema);
-  expect(errors[0].message).toEqual('should be string,integer,number,boolean');
+  expect(errors).not.toEqual([]);
 });
 
-test('invalid categorization layout, invalid type', () => {
+test('invalid categorization layout, root type must be Categorization', () => {
   const uischema = {
     type: 'Test',
     elements: [
@@ -535,10 +509,10 @@ test('invalid categorization layout, invalid type', () => {
     ]
   };
   const errors = validator(uischema);
-  expect(errors[0].message).toEqual('should be equal to one of the allowed values');
+  expect(errors).not.toEqual([]);
 });
 
-test('invalid categorization layout, invalid element type', () => {
+test('invalid categorization layout, Categorization elements must be type of Category', () => {
   const uischema = {
     type: 'Categorization',
     elements: [
@@ -556,10 +530,10 @@ test('invalid categorization layout, invalid element type', () => {
     ]
   };
   const errors = validator(uischema);
-  expect(errors[0].message).toEqual('should be equal to one of the allowed values');
+  expect(errors).not.toEqual([]);
 });
 
-test('invalid group layout, missing label', () => {
+test('invalid group layout, Group layout must have label', () => {
   const uischema = {
     type: 'VerticalLayout',
     elements: [
@@ -581,6 +555,5 @@ test('invalid group layout, missing label', () => {
     ]
   };
   const errors = validator(uischema);
-  const error = _.find(errors, { 'message': 'should have required property \'label\'' });
-  expect(error.message).toEqual('should have required property \'label\'');
+  expect(errors).not.toEqual([]);
 });

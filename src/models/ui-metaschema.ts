@@ -1,4 +1,7 @@
-export const uiMetaSchema = {
+import { JsonSchema } from './jsonSchema';
+
+export const uiMetaSchema: JsonSchema = {
+  '$schema': 'http://json-schema.org/draft-07/schema',
   'type': 'object',
   'properties': {
     'type': {
@@ -33,7 +36,7 @@ export const uiMetaSchema = {
       'properties': {
         'type': {
           'type': 'string',
-          'enum': ['Control']
+          'const': 'Control'
         },
         'label': {
           '$ref': '#/definitions/label'
@@ -42,15 +45,7 @@ export const uiMetaSchema = {
           '$ref': '#/definitions/scope',
         },
         'options': {
-          'type': 'object',
-          'properties': {
-            'additionalProperties': {
-              'type': 'string'
-            }
-          }
-        },
-        'suggestion': {
-          'type': 'array'
+          '$ref': '#/definitions/options'
         },
         'rule': {
           '$ref': '#/definitions/rule'
@@ -79,7 +74,7 @@ export const uiMetaSchema = {
       'properties': {
         'type': {
           'type': 'string',
-          'enum': ['Categorization']
+          'const': 'Categorization'
         },
         'elements': {
           '$ref': '#/definitions/category'
@@ -98,7 +93,7 @@ export const uiMetaSchema = {
         },
         'type': {
           'type': 'string',
-          'enum': ['Category']
+          'const': 'Category'
         },
         'rule': {
           '$ref': '#/definitions/rule'
@@ -111,7 +106,7 @@ export const uiMetaSchema = {
       'properties': {
         'type': {
           'type': 'string',
-          'enum': ['Group']
+          'const': 'Group'
         },
         'elements': {
           '$ref': '#/definitions/elements'
@@ -134,7 +129,7 @@ export const uiMetaSchema = {
           'properties': {
             'type': {
               'type': 'string',
-              'enum': ['LEAF']
+              'const': 'LEAF'
             },
             'scope': {
               '$ref': '#/definitions/scope',
@@ -152,7 +147,7 @@ export const uiMetaSchema = {
       'type': 'string',
       'pattern': '^#\\/properties\\/{1}'
     },
-    'label-object': {
+    'labelObject': {
       'type': 'object',
       'properties': {
         'text': {
@@ -173,9 +168,13 @@ export const uiMetaSchema = {
           'type': 'boolean'
         },
         {
-          '$ref': '#/definitions/label-object'
+          '$ref': '#/definitions/labelObject'
         }
       ]
+    },
+    'options': {
+      'type': 'object',
+      'additionalProperties': true
     }
   },
   'additionalProperties': false,

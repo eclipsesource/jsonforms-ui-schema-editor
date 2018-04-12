@@ -73,16 +73,6 @@ export const uischemaControl = {
       options: {
         'multi': true
       },
-      suggestion: [
-        'Accountant',
-        'Engineer',
-        'Freelancer',
-        'Journalism',
-        'Physician',
-        'Student',
-        'Teacher',
-        'Other'
-      ],
       rule: {
         effect: 'DISABLE',
         condition: {
@@ -91,6 +81,51 @@ export const uischemaControl = {
           expectedValue: false
         }
       }
+    }
+  ]
+};
+
+export const uischemaComplex = {
+  type: 'Group',
+  label: 'My Group',
+  elements: [
+    {
+      type: 'HorizontalLayout',
+      elements: [
+        {
+          type: 'VerticalLayout',
+          elements: [
+            {
+              type: 'Control',
+              scope: '#/properties/name'
+            },
+            {
+              type: 'Control',
+              scope: '#/properties/personalData/properties/age'
+            }
+          ]
+        },
+        {
+          type: 'VerticalLayout',
+          elements: [
+            {
+              type: 'Control',
+              label: 'Name',
+              scope: '#/properties/name'
+            },
+            {
+              type: 'Control',
+              label: 'Birth Date',
+              scope: '#/properties/birthDate'
+            }
+          ]
+        }
+      ]
+    },
+    {
+      type: 'Control',
+      label: 'Birth Date',
+      scope: '#/properties/birthDate'
     }
   ]
 };
