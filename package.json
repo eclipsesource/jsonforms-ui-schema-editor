@@ -4,6 +4,8 @@
   "repository": "https://github.com/eclipsesource/jsonforms-ui-schema-editor",
   "bugs": "https://github.com/eclipsesource/jsonforms-ui-schema-editor/issues",
   "dependencies": {
+    "@types/lodash": "^4.14.106",
+    "ajv": "^6.4.0",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
     "react-scripts-ts": "2.14.0"
@@ -12,7 +14,7 @@
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "eject": "react-scripts-ts eject",
-    "lint": "tslint --project tsconfig.json --exclude src/registerServiceWorker.ts",
+    "lint": "tslint -p tsconfig.json -c tslint.json 'src/**/*.ts' 'test/*.ts' --exclude src/registerServiceWorker.ts",
     "test": "jest --coverage",
     "coverage": "nyc report --temp-directory=coverage --reporter=text-lcov | coveralls"
   },

@@ -28,8 +28,6 @@
         "no-var-requires": true,
         "only-arrow-functions": true,
         "prefer-for-of": true,
-
-
         "curly": true,
         "forin": true,
         "label-position": true,
