@@ -112,6 +112,79 @@ test('validates ENABLE effect of rule', () => {
   expect(validator(uischema)).toEqual([]);
 });
 
+test('validates control element, label type boolean', () => {
+  const uischema = {
+    type: 'HorizontalLayout',
+    elements: [
+      {
+        type: 'Control',
+        label: true,
+        scope: '#/properties/occupation'
+      }
+    ]
+  };
+
+  expect(validator(uischema)).toEqual([]);
+});
+
+test('validates control element, label type string', () => {
+  expect(validator(uischemaControl)).toEqual([]);
+});
+
+test('validates control element, label type object', () => {
+  const uischema = {
+    type: 'HorizontalLayout',
+    elements: [
+      {
+        type: 'Control',
+        label: {
+          show: true,
+          text: 'Occupation'
+        },
+        scope: '#/properties/occupation'
+      }
+    ]
+  };
+
+  expect(validator(uischema)).toEqual([]);
+});
+
+test('invalid control element, invalid label', () => {
+  const uischema = {
+    type: 'HorizontalLayout',
+    elements: [
+      {
+        type: 'Control',
+        label: {
+          label: 'Occupation'
+        },
+        scope: '#/properties/occupation'
+      }
+    ]
+  };
+  const errors = validator(uischema);
+  expect(errors[0].message).toEqual('should be string');
+});
+
+test('invalid control element, label with additional properties', () => {
+  const uischema = {
+    type: 'HorizontalLayout',
+    elements: [
+      {
+        type: 'Control',
+        label: {
+          show: true,
+          text: 'Occupation',
+          hide: false
+        },
+        scope: '#/properties/occupation'
+      }
+    ]
+  };
+  const errors = validator(uischema);
+  expect(errors[0].message).toEqual('should be string');
+});
+
 test('invalid vertical layout, missing type', () => {
   const uischema = {
     elements: [
@@ -244,23 +317,6 @@ test('invalid control element, invalid suggestion type', () => {
   };
   const errors = validator(uischema);
   expect(errors[0].message).toEqual('should be array');
-});
-
-test('invalid control element, invalid label', () => {
-  const uischema = {
-    type: 'HorizontalLayout',
-    elements: [
-      {
-        type: 'Control',
-        label: {
-          label: 'Occupation'
-        },
-        scope: '#/properties/occupation'
-      }
-    ]
-  };
-  const errors = validator(uischema);
-  expect(errors[0].message).toEqual('should be string,boolean');
 });
 
 test('invalid rule, missing effect', () => {

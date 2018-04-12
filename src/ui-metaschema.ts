@@ -1,5 +1,4 @@
 export const uiMetaSchema = {
-  '$schema': 'http://json-schema.org/draft-07/schema#',
   'type': 'object',
   'properties': {
     'type': {
@@ -153,8 +152,30 @@ export const uiMetaSchema = {
       'type': 'string',
       'pattern': '^#\\/properties\\/{1}'
     },
+    'label-object': {
+      'type': 'object',
+      'properties': {
+        'text': {
+          'type': 'string'
+        },
+        'show': {
+          'type': 'boolean'
+        }
+      },
+      'additionalProperties': false
+    },
     'label': {
-      'type': ['string', 'boolean']
+      'anyOf': [
+        {
+          'type': 'string'
+        },
+        {
+          'type': 'boolean'
+        },
+        {
+          '$ref': '#/definitions/label-object'
+        }
+      ]
     }
   },
   'additionalProperties': false,
