@@ -1,19 +1,20 @@
 import * as AJV from 'ajv';
 import { ErrorObject } from 'ajv';
 import { JsonSchema7 } from '@jsonforms/core';
+import AjvErrors = require('ajv-errors'); // tslint:disable-line
 
-const ajv = new AJV({allErrors: true, verbose: true});
+const ajv = new AJV({allErrors: true, verbose: true, jsonPointers: true});
+AjvErrors(ajv);
 
 interface ValidationErrors {
   message: string;
   schemaPath?: string;
 }
 
-const extractErrors = (errors: ErrorObject[]): ValidationErrors[] =>
+const extractErrors = (errors: ErrorObject[]): ValidationErrors[]  =>
   errors.map((error: ErrorObject) => {
     return {
       message: error.message,
-      schemaPath: error.schemaPath
     };
   });
 

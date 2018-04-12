@@ -175,9 +175,7 @@ test('invalid control element, layout label must be string', () => {
     elements: [
       {
         type: 'Control',
-        label: {
-          label: 'Occupation'
-        },
+        label: ['Occupation'],
         scope: '#/properties/occupation'
       }
     ]
@@ -222,12 +220,6 @@ test('invalid vertical layout, missing layout elements', () => {
   const uischema = {
     type: 'VerticalLayout'
   };
-  const errors = validator(uischema);
-  expect(errors).not.toEqual([]);
-});
-
-test('invalid layout, empty uischema', () => {
-  const uischema = {};
   const errors = validator(uischema);
   expect(errors).not.toEqual([]);
 });
@@ -311,6 +303,27 @@ test('invalid control element, options of Control must be type of object', () =>
         label: 'Occupation',
         scope: '#/properties/occupation',
         options: 'multi'
+      }
+    ]
+  };
+  const errors = validator(uischema);
+  expect(errors).not.toEqual([]);
+});
+
+test('invalid control element, invalid suggestion type', () => {
+  const uischema = {
+    type: 'HorizontalLayout',
+    elements: [
+      {
+        type: 'Control',
+        label: 'Occupation',
+        scope: '#/properties/occupation',
+        suggestion: {
+          Accountant: 'Accountant',
+          Engineer: 'Engineer',
+          Freelancer: 'Freelancer',
+          Journalism: 'Journalism'
+        }
       }
     ]
   };
@@ -461,6 +474,29 @@ test('invalid rule, condition type must be LEAF', () => {
             type: 'Test',
             scope: '#/properties/alive',
             expectedValue: false
+          }
+        }
+      }
+    ]
+  };
+  const errors = validator(uischema);
+  expect(errors).not.toEqual([]);
+});
+
+test('invalid rule, invalid effect value', () => {
+  const uischema = {
+    type: 'HorizontalLayout',
+    elements: [
+      {
+        type: 'Control',
+        label: 'Occupation',
+        scope: '#/properties/occupation',
+        rule: {
+          effect: 'Test',
+          condition: {
+            type: 'LEAF',
+            scope: '#/properties/alive',
+            expectedValue: true
           }
         }
       }
