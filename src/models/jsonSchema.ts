@@ -7,12 +7,12 @@ export interface JsonSchema {
    * This is important because it tells refs where
    * the root of the document is located
    */
-  id?: string;
+  $id?: string;
   /**
    * It is recommended that the meta-schema is
    * included in the root of any JSON Schema
    */
-  $schema?: JsonSchema;
+  $schema?: string;
   /**
    * Title of the schema
    */
@@ -25,7 +25,7 @@ export interface JsonSchema {
    * Default json for the object represented by
    * this schema
    */
-  'default'?: any;
+  default?: any;
 
   /////////////////////////////////////////////////
   // Number Validation
@@ -39,12 +39,12 @@ export interface JsonSchema {
   /**
    * If true maximum must be > value, >= otherwise
    */
-  exclusiveMaximum?: boolean;
+  exclusiveMaximum?: number;
   minimum?: number;
   /**
    * If true minimum must be < value, <= otherwise
    */
-  exclusiveMinimum?: boolean;
+  exclusiveMinimum?: number;
 
   /////////////////////////////////////////////////
   // String Validation
@@ -126,4 +126,14 @@ export interface JsonSchema {
   not?: JsonSchema;
 
   format?: string;
+  readOnly?: boolean;
+  writeOnly?: boolean;
+  examples?: any[];
+  contains?: JsonSchema;
+  propertyNames?: JsonSchema;
+  const?: any;
+  if?: JsonSchema;
+  then?: JsonSchema;
+  else?: JsonSchema;
+  errorMessage?: any;
 }
