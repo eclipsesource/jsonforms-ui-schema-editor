@@ -1,5 +1,7 @@
 import { JsonSchema7 } from '@jsonforms/core';
+
 export const uiMetaSchema: JsonSchema7 = {
+  '$schema': 'http://json-schema.org/draft-07/schema',
   'type': 'object',
   '$id': '#root',
   'properties': {
@@ -277,14 +279,14 @@ export const uiMetaSchema: JsonSchema7 = {
           ]
         }
       },
-      'dependencies': {
-        'effect': ['condition'],
-        'condition': ['effect']
-      },
+      'required': [
+        'effect',
+        'condition'
+      ],
       'errorMessage': {
-        'dependencies': {
-          'effect': 'Condition has to be defined',
-          'condition': 'Effect has to be defined'
+        'required': {
+          'effect': 'Effect has to de defined',
+          'condition': 'Condition has to be defined',
         }
       }
     },

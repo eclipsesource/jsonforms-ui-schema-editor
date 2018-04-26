@@ -1,7 +1,7 @@
 import * as AJV from 'ajv';
 import { ErrorObject } from 'ajv';
 import { JsonSchema7 } from '@jsonforms/core';
-import AjvErrors = require('ajv-errors'); // tslint:disable-line
+import * as AjvErrors from 'ajv-errors'; // tslint:disable-line
 
 const ajv = new AJV({allErrors: true, verbose: true, jsonPointers: true});
 AjvErrors(ajv);

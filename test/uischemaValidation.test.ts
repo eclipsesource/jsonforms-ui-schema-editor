@@ -595,3 +595,18 @@ test('invalid group layout, Group layout must have label', () => {
   const errors = validator(uischema);
   expect(errors).not.toEqual([]);
 });
+
+test('invalid control element, custom error message for missing scope', () => {
+  const uischema = {
+    type: 'HorizontalLayout',
+    elements: [
+      {
+        type: 'Control',
+        label: 'Occupation',
+      }
+    ]
+  };
+  const errors = validator(uischema);
+  expect(errors).not.toEqual([]);
+  expect(errors[0].message).toEqual(`Control should have an object property "scope"`);
+});
