@@ -1,22 +1,51 @@
 import * as React from 'react';
-import './App.css';
+import { connect } from 'react-redux';
+import EditorBar from './editor/app-bar/EditorBar';
+import JsonEditorIde from './editor/JsonEditorIde';
+import { getData, getSchema, getUiSchema } from '@jsonforms/core';
+import {
+  EditorContext,
+  getIdentifyingProperty,
+  getModelMapping,
+  SchemaService,
+  SchemaServiceImpl
+} from '@jsonforms/editor';
 
-import { logo } from './logo.svg';
+interface AppProps {
+  uischema: any;
+  schema: any;
+  schemaService: SchemaService;
+  rootData: any;
+}
 
-class App extends React.Component {
+class App extends React.Component<AppProps, {}> {
+
   render() {
+    const { rootData, uischema, schema, schemaService } = this.props;
+
     return (
-      <div className='App'>
-        <header className='App-header'>
-          <img src={logo} className='App-logo' alt='logo' />
-          <h1 className='App-title'>Welcome to React</h1>
-        </header>
-        <p className='App-intro'>
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
+      <div>
+        <EditorBar schema={schema} rootData={rootData}/>
+        <JsonEditorIde uischema={uischema} schema={schema} schemaService={schemaService}/>
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  const editorContext: EditorContext = {
+    dataSchema: getSchema(state),
+    modelMapping: getModelMapping(state),
+    identifyingProperty: getIdentifyingProperty(state)
+  };
+  const schemaService = new SchemaServiceImpl(editorContext);
+
+  return {
+    uischema: getUiSchema(state),
+    schema: getSchema(state),
+    schemaService: schemaService,
+    rootData: getData(state)
+  };
+};
+
+export default connect(mapStateToProps)(App);
