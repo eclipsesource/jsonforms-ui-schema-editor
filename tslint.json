@@ -73,7 +73,6 @@
             true,
             "allow-null-check"
         ],
-        "typeof-compare": true,
         "use-isnan": true,
         "cyclomatic-complexity": true,
         "eofline": true,

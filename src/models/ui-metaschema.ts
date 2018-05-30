@@ -1,12 +1,17 @@
-import { JsonSchema } from './jsonSchema';
-
+import { JsonSchema } from '@jsonforms/core';
+// TODO add schema version 7
 export const uiMetaSchema: JsonSchema = {
-  '$schema': 'http://json-schema.org/draft-07/schema',
   'type': 'object',
+  'id': '#root',
   'properties': {
     'type': {
       'type': 'string',
-      'enum': ['HorizontalLayout', 'VerticalLayout', 'Group', 'Categorization']
+      'enum': [
+        'HorizontalLayout',
+        'VerticalLayout',
+        'Group',
+        'Categorization'
+      ]
     },
     'label': {
       'type': 'string'
@@ -21,28 +26,44 @@ export const uiMetaSchema: JsonSchema = {
   'definitions': {
     'elements': {
       'type': 'array',
+      'id': '#elements',
       'items': {
         'anyOf': [
-          { '$ref': '#/definitions/control' },
-          { '$ref': '#/definitions/layouts' },
-          { '$ref': '#/definitions/categorization' },
-          { '$ref': '#/definitions/category' },
-          { '$ref': '#/definitions/group' }
+          {
+            '$ref': '#/definitions/control'
+          },
+          {
+            '$ref': '#/definitions/horizontallayout'
+          },
+          {
+            '$ref': '#/definitions/verticallayout'
+          },
+          {
+            '$ref': '#/definitions/categorization'
+          },
+          {
+            '$ref': '#/definitions/category'
+          },
+          {
+            '$ref': '#/definitions/group'
+          }
         ]
       }
     },
     'control': {
       'type': 'object',
+      'id': '#control',
       'properties': {
         'type': {
           'type': 'string',
-          'const': 'Control'
+          'const': 'Control',
+          'default': 'Control'
         },
         'label': {
-          '$ref': '#/definitions/label'
+          'type': 'string'
         },
         'scope': {
-          '$ref': '#/definitions/scope',
+          '$ref': '#/definitions/scope'
         },
         'options': {
           '$ref': '#/definitions/options'
@@ -51,14 +72,19 @@ export const uiMetaSchema: JsonSchema = {
           '$ref': '#/definitions/rule'
         }
       },
-      'required': ['type', 'scope']
+      'required': [
+        'type',
+        'scope'
+      ]
     },
-    'layouts': {
+    'horizontallayout': {
       'type': 'object',
+      'id': '#horizontallayout',
       'properties': {
         'type': {
           'type': 'string',
-          'enum': ['HorizontalLayout', 'VerticalLayout']
+          'const': 'HorizontalLayout',
+          'default': 'HorizontalLayout'
         },
         'elements': {
           '$ref': '#/definitions/elements'
@@ -67,23 +93,56 @@ export const uiMetaSchema: JsonSchema = {
           '$ref': '#/definitions/rule'
         }
       },
-      'required': ['type', 'elements']
+      'required': [
+        'type',
+        'elements'
+      ]
+    },
+    'verticallayout': {
+      'type': 'object',
+      'id': '#verticallayout',
+      'properties': {
+        'type': {
+          'type': 'string',
+          'const': 'VerticalLayout',
+          'default': 'VerticalLayout'
+        },
+        'elements': {
+          '$ref': '#/definitions/elements'
+        },
+        'rule': {
+          '$ref': '#/definitions/rule'
+        }
+      },
+      'required': [
+        'type',
+        'elements'
+      ]
     },
     'categorization': {
       'type': 'object',
+      'id': '#categorization',
       'properties': {
         'type': {
           'type': 'string',
-          'const': 'Categorization'
+          'const': 'Categorization',
+          'default': 'Categorization'
         },
         'elements': {
-          '$ref': '#/definitions/category'
-        },
+          'type': 'array',
+          'items': {
+            '$ref': '#/definitions/category'
+          }
+        }
       },
-      'required': ['type', 'elements']
+      'required': [
+        'type',
+        'elements'
+      ]
     },
     'category': {
       'type': 'object',
+      'id': '#category',
       'properties': {
         'label': {
           'type': 'string'
@@ -93,20 +152,26 @@ export const uiMetaSchema: JsonSchema = {
         },
         'type': {
           'type': 'string',
-          'const': 'Category'
+          'const': 'Category',
+          'default': 'Category'
         },
         'rule': {
           '$ref': '#/definitions/rule'
         }
       },
-      'required': ['type', 'elements']
+      'required': [
+        'type',
+        'elements'
+      ]
     },
     'group': {
       'type': 'object',
+      'id': '#group',
       'properties': {
         'type': {
           'type': 'string',
-          'const': 'Group'
+          'const': 'Group',
+          'default': 'Group'
         },
         'elements': {
           '$ref': '#/definitions/elements'
@@ -115,14 +180,24 @@ export const uiMetaSchema: JsonSchema = {
           'type': 'string'
         }
       },
-      'required': ['type', 'elements', 'label']
+      'required': [
+        'type',
+        'elements',
+        'label'
+      ]
     },
     'rule': {
       'type': 'object',
+      'id': '#rule',
       'properties': {
         'effect': {
           'type': 'string',
-          'enum': ['HIDE', 'SHOW', 'DISABLE', 'ENABLE']
+          'enum': [
+            'HIDE',
+            'SHOW',
+            'DISABLE',
+            'ENABLE'
+          ]
         },
         'condition': {
           'type': 'object',
@@ -132,51 +207,43 @@ export const uiMetaSchema: JsonSchema = {
               'const': 'LEAF'
             },
             'scope': {
-              '$ref': '#/definitions/scope',
+              '$ref': '#/definitions/scope'
             },
             'expectedValue': {
-              'type': ['string', 'integer', 'number', 'boolean']
+              'type': [
+                'string',
+                'integer',
+                'number',
+                'boolean'
+              ]
             }
           },
-          'required': ['type', 'scope', 'expectedValue']
+          'required': [
+            'type',
+            'scope',
+            'expectedValue'
+          ]
         }
       },
-      'required': ['effect', 'condition']
+      'required': [
+        'effect',
+        'condition'
+      ]
     },
     'scope': {
       'type': 'string',
+      'id': '#scope',
       'pattern': '^#\\/properties\\/{1}'
-    },
-    'labelObject': {
-      'type': 'object',
-      'properties': {
-        'text': {
-          'type': 'string'
-        },
-        'show': {
-          'type': 'boolean'
-        }
-      },
-      'additionalProperties': false
-    },
-    'label': {
-      'anyOf': [
-        {
-          'type': 'string'
-        },
-        {
-          'type': 'boolean'
-        },
-        {
-          '$ref': '#/definitions/labelObject'
-        }
-      ]
     },
     'options': {
       'type': 'object',
+      'id': '#options',
       'additionalProperties': true
     }
   },
   'additionalProperties': false,
-  'required': ['elements', 'type']
+  'required': [
+    'elements',
+    'type'
+  ]
 };

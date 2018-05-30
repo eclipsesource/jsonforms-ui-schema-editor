@@ -1,6 +1,8 @@
 import * as AJV from 'ajv';
 import { ErrorObject } from 'ajv';
-import { JsonSchema } from './models/jsonSchema';
+// TODO migrate to draft 7
+// import { JsonSchema } from './models/jsonSchema';
+import { JsonSchema } from '@jsonforms/core';
 
 const ajv = new AJV({allErrors: true, verbose: true});
 
