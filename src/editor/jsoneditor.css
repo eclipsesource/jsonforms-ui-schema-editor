@@ -5,11 +5,6 @@
     --jsf-validation-color: #F44336;
 }
 
-#toolbar {
-    padding-right: 1em;
-    padding-left: 1em;
-}
-
 #editor {
     margin: auto;
     width: 75%;
@@ -33,44 +28,6 @@ fieldset {
 
 fieldset legend label {
     font-size: 1em;
-}
-
-/* dialog */
-.export-data-dialog {
-    border-width: medium;
-    border-radius: 8px;
-    border-color: var(--jsf-border-color);
-}
-.export-data-dialog-textarea {
-    width: 400px;
-    height: 250px;
-    white-space: pre;
-    overflow-wrap: normal;
-    overflow-x: scroll;
-}
-.export-data-dialog-buttons {
-    display: flex;
-    flex-direction: row;
-}
-.export-data-dialog-buttons > * {
-    width: 100%;
-}
-.export-data-dialog-buttons > *:first-child {
-    margin-right: 5px;
-}
-.export-data-dialog-buttons > *:last-child {
-    margin-left: 5px;
-}
-.export-data-dialog-content {
-    display: flex;
-    flex-direction: column;
-}
-.export-data-dialog-content > * {
-    margin-top: 1em;
-}
-.export-data-dialog-title {
-    margin-top: 0;
-    font-size: large
 }
 
 jsf-treeMasterDetail {

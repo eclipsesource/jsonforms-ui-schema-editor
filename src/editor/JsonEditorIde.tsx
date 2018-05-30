@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { TreeRenderer } from '@jsonforms/editor';
 import './jsoneditor.css';
 import './example.css';
-import './example.materialize.css';
 
 const JsonFormsEditorIde = props => {
   const { uischema, schema, schemaService} = props;

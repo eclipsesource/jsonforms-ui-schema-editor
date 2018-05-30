@@ -14,18 +14,18 @@ export const labelProvider = {
 };
 
 export const imageProvider = {
-  '#root': 'task',
-  '#elements': 'task',
-  '#categorization': 'task',
-  '#control': 'task',
-  '#category': 'task',
-  '#group': 'task',
-  '#rule': 'task',
-  '#scope': 'task',
-  '#labelObject': 'task',
-  '#options': 'task',
-  '#horizontallayout': 'task',
-  '#verticallayout': 'task',
+  '#root': 'uielement',
+  '#elements': 'uielement',
+  '#categorization': 'uielement',
+  '#control': 'uielement',
+  '#category': 'uielement',
+  '#group': 'uielement',
+  '#rule': 'uielement',
+  '#scope': 'uielement',
+  '#labelObject': 'uielement',
+  '#options': 'uielement',
+  '#horizontallayout': 'uielement',
+  '#verticallayout': 'uielement',
 };
 
 export const modelMapping = {

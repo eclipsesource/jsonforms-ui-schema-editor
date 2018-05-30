@@ -150,7 +150,7 @@ class EditorBar extends
         <AppBar position='static'>
           <Toolbar>
             <Typography variant='title' color='inherit' className={classes.flex}>
-              Generic Editor
+              UI Schema Editor
             </Typography>
             <Button className={classes.button} color='inherit' onClick={this.handleModelSchemaOpen}>
               Upload Schema Model/Domain

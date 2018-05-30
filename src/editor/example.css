@@ -1,6 +1,6 @@
 .icon {
     background-repeat: no-repeat;
 }
-.icon.task {
-    background-image: url('./icons/Task.png');
+.icon.uielement {
+    background-image: url('./icons/UIElement.png');
 }

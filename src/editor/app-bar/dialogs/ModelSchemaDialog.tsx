@@ -9,11 +9,9 @@ import Dialog from 'material-ui/Dialog';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 import withMobileDialog from 'material-ui/Dialog/withMobileDialog';
-import { MasterDetailLayout } from '@jsonforms/editor';
-import { getData, getUiSchema, Paths, Resolve } from '@jsonforms/core';
-import * as _ from 'lodash';
+import { getData, getUiSchema } from '@jsonforms/core';
 import PreviewDialog from './PreviewDialog';
-import { addModelSchema, getModelSchema } from '../../../reducers';
+import { getModelSchema, setModelSchema } from '../../../reducers';
 
 const styles: StyleRulesCallback<'textarea'> = () => ({
   textarea: {
@@ -33,7 +31,6 @@ interface ModelSchemaDialogProps {
   setModelSchema?: any;
   fullScreen?: boolean;
   rootData?: any;
-  selectedPath?: string;
 }
 
 interface ModelSchemaDialogState {
@@ -105,7 +102,7 @@ class ModelSchemaDialog extends
   }
 
   render() {
-    const { classes, fullScreen, open, rootData, selectedPath, readOnly } = this.props;
+    const { classes, fullScreen, open, rootData, readOnly } = this.props;
     const textFieldData = readOnly ?
       JSON.stringify(rootData, null, 2) :
       JSON.stringify(this.state.modelSchema, null, 2);
@@ -153,7 +150,7 @@ class ModelSchemaDialog extends
             open={this.state.preview.open}
             onClose={this.handlePreviewClose}
             schema={this.state.modelSchema}
-            path={selectedPath}
+            path=''
             uischema={rootData}
           />
         </DialogActions>
@@ -163,33 +160,22 @@ class ModelSchemaDialog extends
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const uischema = getUiSchema(state);
-  const path = Paths.compose(ownProps.path, Paths.fromScopable(uischema));
   const rootData = getData(state);
-  const controlElement = uischema as MasterDetailLayout;
-  const resolvedRootData = Resolve.data(rootData, path);
-
-  let selectedPath = Paths.fromScopable(controlElement);
-  if (_.isArray(resolvedRootData)) {
-    selectedPath = Paths.compose(Paths.fromScopable(controlElement), '0');
-  }
 
   return {
     rootData,
-    resolvedRootData: Resolve.data(rootData, path),
     classes: ownProps.classes,
     onClose: ownProps.onClose,
     readOnly: ownProps.readOnly,
     open: ownProps.open,
     modelSchema: getModelSchema(state),
-    uischema: getUiSchema(state),
-    selectedPath
+    uischema: getUiSchema(state)
   };
 };
 
 const mapDispatchToProps = dispatch => ({
   setModelSchema(value) {
-    dispatch(addModelSchema(value));
+    dispatch(setModelSchema(value));
   }
 });
 

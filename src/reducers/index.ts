@@ -1,10 +1,10 @@
 import { JsonSchema } from '@jsonforms/core';
 
-export const ADD_MODEL_SCHEMA:
-  'jsonforms/uiEditor/ADD_MODEL_SCHEMA' = 'jsonforms/uiEditor/ADD_MODEL_SCHEMA';
+export const SET_MODEL_SCHEMA:
+  'jsonforms/uiEditor/SET_MODEL_SCHEMA' = 'jsonforms/uiEditor/SET_MODEL_SCHEMA';
 
-export interface AddModelSchemaAction {
-  type: 'jsonforms/uiEditor/ADD_MODEL_SCHEMA';
+export interface SetModelSchemaAction {
+  type: 'jsonforms/uiEditor/SET_MODEL_SCHEMA';
   modelSchema: any;
 }
 
@@ -12,9 +12,9 @@ const extractModelSchema = state => state.modelSchema;
 
 export const getModelSchema = state => extractModelSchema(state.jsonforms.uiEditor);
 
-export const addModelSchema = (modelSchema): AddModelSchemaAction => {
+export const setModelSchema = (modelSchema): SetModelSchemaAction => {
   return {
-    type: ADD_MODEL_SCHEMA,
+    type: SET_MODEL_SCHEMA,
     modelSchema: modelSchema
   };
 };
@@ -32,7 +32,7 @@ export const uiEditorReducer = (
   },
   action): UIEditorState => {
   switch (action.type) {
-    case ADD_MODEL_SCHEMA:
+    case SET_MODEL_SCHEMA:
       if (action.modelSchema === undefined || action.modelSchema === null) {
         return state;
       }
