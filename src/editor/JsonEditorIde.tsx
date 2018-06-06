@@ -5,11 +5,11 @@ import './jsoneditor.css';
 import './example.css';
 
 const JsonFormsEditorIde = props => {
-  const { uischema, schema, schemaService} = props;
+  const { uischema, schema, filterPredicate} = props;
 
   return (
     <div>
-      <TreeRenderer uischema={uischema} schema={schema} schemaService={schemaService}/>
+      <TreeRenderer uischema={uischema} schema={schema} filterPredicate={filterPredicate}/>
     </div>
   );
 };
@@ -18,7 +18,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     uischema: ownProps.uischema,
     schema: ownProps.schema,
-    schemaService: ownProps.schemaService
+    filterPredicate: ownProps.filterPredicate
   };
 };
 

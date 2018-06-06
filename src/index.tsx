@@ -12,14 +12,34 @@ import {
   jsonformsReducer,
   RankedTester
 } from '@jsonforms/core';
-import { editorReducer } from '@jsonforms/editor';
+import {
+  editorReducer,
+  findAllContainerProperties,
+  Property,
+  setContainerProperties
+} from '@jsonforms/editor';
 import { uiEditorReducer } from './reducers';
 import { NonEmptyLayoutRenderer, nonEmptyLayoutTester } from './editor/util/NonEmptyLayout';
 import * as JsonRefs from 'json-refs';
+import * as _ from 'lodash';
 
 const uischema = {
   'type': 'MasterDetailLayout',
   'scope': '#'
+};
+
+export const filterPredicate = (data: Object) => {
+  return (property: Property): boolean => {
+    if (!_.isEmpty(modelMapping) &&
+      !_.isEmpty(modelMapping.mapping)) {
+      if (data[modelMapping.attribute]) {
+        return property.schema.id === modelMapping.mapping[_.toLower(data[modelMapping.attribute])];
+      }
+      return true;
+    }
+
+    return false;
+  };
 };
 
 const renderers: { tester: RankedTester, renderer: any}[] = materialRenderers;
@@ -62,6 +82,9 @@ JsonRefs.resolveRefs(uiMetaSchema)
       store.dispatch(Actions.init({}, resolvedSchema.resolved, uischema));
 
       store.dispatch(Actions.registerRenderer(nonEmptyLayoutTester, NonEmptyLayoutRenderer));
+
+      store.dispatch(setContainerProperties(findAllContainerProperties(resolvedSchema.resolved,
+                                                                       resolvedSchema.resolved)));
 
       ReactDOM.render(
         <Provider store={store}>
