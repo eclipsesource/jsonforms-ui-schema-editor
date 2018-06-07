@@ -33,7 +33,7 @@ export const filterPredicate = (data: Object) => {
     if (!_.isEmpty(modelMapping) &&
       !_.isEmpty(modelMapping.mapping)) {
       if (data[modelMapping.attribute]) {
-        return property.schema.id === modelMapping.mapping[_.toLower(data[modelMapping.attribute])];
+        return property.schema.id === modelMapping.mapping[data[modelMapping.attribute]];
       }
       return true;
     }
