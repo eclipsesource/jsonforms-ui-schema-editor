@@ -3,47 +3,33 @@ import { connect } from 'react-redux';
 import EditorBar from './editor/app-bar/EditorBar';
 import JsonEditorIde from './editor/JsonEditorIde';
 import { getData, getSchema, getUiSchema } from '@jsonforms/core';
-import {
-  EditorContext,
-  getIdentifyingProperty,
-  getModelMapping,
-  SchemaService,
-  SchemaServiceImpl
-} from '@jsonforms/editor';
+import { filterPredicate } from './index';
 
 interface AppProps {
   uischema: any;
   schema: any;
-  schemaService: SchemaService;
   rootData: any;
+  filterPredicate: any;
 }
 
 class App extends React.Component<AppProps, {}> {
 
   render() {
-    const { rootData, uischema, schema, schemaService } = this.props;
+    const { rootData, uischema, schema } = this.props;
 
     return (
       <div>
         <EditorBar schema={schema} rootData={rootData}/>
-        <JsonEditorIde uischema={uischema} schema={schema} schemaService={schemaService}/>
+        <JsonEditorIde uischema={uischema} schema={schema} filterPredicate={filterPredicate}/>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => {
-  const editorContext: EditorContext = {
-    dataSchema: getSchema(state),
-    modelMapping: getModelMapping(state),
-    identifyingProperty: getIdentifyingProperty(state)
-  };
-  const schemaService = new SchemaServiceImpl(editorContext);
-
   return {
     uischema: getUiSchema(state),
     schema: getSchema(state),
-    schemaService: schemaService,
     rootData: getData(state)
   };
 };
