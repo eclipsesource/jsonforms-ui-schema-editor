@@ -1,6 +1,6 @@
-import { JsonSchema } from '@jsonforms/core';
+import { JsonSchema4 } from '@jsonforms/core';
 // TODO add schema version 7
-export const uiMetaSchema: JsonSchema = {
+export const uiMetaSchema: JsonSchema4 = {
   'type': 'object',
   'id': '#root',
   'properties': {

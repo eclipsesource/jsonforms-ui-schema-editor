@@ -9,9 +9,10 @@ import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import { JsonForms } from '@jsonforms/react';
 
-const styles: StyleRulesCallback<'appBar' | 'flex'> = () => ({
+const styles: StyleRulesCallback<'appBar' | 'flex'> = theme => ({
   appBar: {
     position: 'relative',
+    backgroundColor: theme.palette.background.default
   },
   flex: {
     flex: 1,
@@ -50,10 +51,10 @@ class PreviewDialog extends
         >
           <AppBar className={classes.appBar}>
             <Toolbar>
-              <IconButton color='inherit' onClick={this.handleClose} aria-label='Close'>
+              <IconButton color='primary' onClick={this.handleClose} aria-label='Close'>
                 <CloseIcon />
               </IconButton>
-              <Typography variant='title' color='inherit' className={classes.flex}>
+              <Typography variant='title' color='primary' className={classes.flex}>
                 Preview
               </Typography>
             </Toolbar>
