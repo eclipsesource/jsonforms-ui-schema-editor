@@ -1,8 +1,11 @@
 :root {
-    --jsf-modest-bg-color: #ee6e73;
+    --jsf-modest-bg-color: #217daf;
     --jsf-border-color: lightgray;
-    --jsf-modest-bg-highlight-color: #26a69a;
     --jsf-validation-color: #F44336;
+}
+
+body {
+    background-color: #1e1e1e;
 }
 
 #editor {
@@ -86,12 +89,13 @@ jsf-treeMasterDetail {
     flex: 1;
     margin-right: 1em;
     min-height: 1.5em;
-    color: var(--jsf-main-fg-color);
+    color: white;
+    align-items: center;
 }
 /* TODO: Needed? */
 .jsf-treeMasterDetail-master li > div > .label > span:first-child:empty {
     background: #ffff00;
-    min-height: 1.5em;
+    max-height: 1.5em;
 }
 .jsf-treeMasterDetail-master li > div > .label:hover {
     font-weight: bold;
@@ -105,8 +109,9 @@ jsf-treeMasterDetail {
     display: none;
     cursor: pointer;
     margin-left: 0.25em;
-    min-width: 1.5em;
     font-weight: normal;
+    width: inherit;
+    height: inherit;
 }
 .jsf-treeMasterDetail-master li > div > .label:hover > .add,
 .jsf-treeMasterDetail-master li > div > .label:hover > .remove {
@@ -116,7 +121,6 @@ jsf-treeMasterDetail {
 .jsf-treeMasterDetail-master li > div > .label:hover > .add:hover,
 .jsf-treeMasterDetail-master li > div > .label:hover > .remove:hover {
     color: white;
-    background-color: var(--jsf-modest-bg-highlight-color);
     border-radius: 50%;
 }
 .jsf-treeMasterDetail-master li::before,

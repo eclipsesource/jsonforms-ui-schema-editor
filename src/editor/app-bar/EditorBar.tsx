@@ -3,7 +3,12 @@ import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import * as _ from 'lodash';
 import * as AJV from 'ajv';
-import { StyleRulesCallback, withStyles, WithStyles } from '@material-ui/core/styles';
+import {
+  StyleRulesCallback,
+  withStyles,
+  WithStyles,
+  withTheme
+} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -17,18 +22,23 @@ import { Actions } from '@jsonforms/core';
 
 const ajv = new AJV({allErrors: true, verbose: true});
 
-const styles: StyleRulesCallback<'root' | 'flex' | 'rightIcon' | 'button'> = theme => ({
+const styles:
+  StyleRulesCallback<'root' | 'flex' | 'rightIcon' | 'button' | 'appBar'> = theme => ({
   root: {
-    flexGrow: 1,
+    flexGrow: 1
+  },
+  appBar: {
+    backgroundColor: theme.palette.background.default
   },
   flex: {
-    flex: 1,
+    flex: 1
   },
   rightIcon: {
-    marginLeft: theme.spacing.unit,
+    marginLeft: theme.spacing.unit
   },
   button: {
     margin: theme.spacing.unit,
+    color: theme.palette.text.primary
   }
 });
 
@@ -48,7 +58,7 @@ interface EditorBarState {
 }
 
 class EditorBar extends
-  React.Component<EditorBarProps & WithStyles<'root' | 'flex' | 'rightIcon' | 'button'>,
+  React.Component<EditorBarProps & WithStyles<'root' | 'flex' | 'rightIcon' | 'button' | 'appBar'>,
                   EditorBarState> {
   componentWillMount() {
     this.setState({
@@ -147,12 +157,12 @@ class EditorBar extends
     const { classes } = this.props;
     return (
       <div className={classes.root}>
-        <AppBar position='static'>
+        <AppBar className={classes.appBar} position='static'>
           <Toolbar>
-            <Typography variant='title' color='inherit' className={classes.flex}>
+            <Typography variant='title' color='primary' className={classes.flex}>
               UI Schema Editor
             </Typography>
-            <Button className={classes.button} color='inherit' onClick={this.handleModelSchemaOpen}>
+            <Button className={classes.button} color='primary' onClick={this.handleModelSchemaOpen}>
               Upload Schema Model/Domain
               <FileUpload className={classes.rightIcon} />
             </Button>
@@ -161,7 +171,7 @@ class EditorBar extends
               readOnly={false}
               onClose={this.handleModelSchemaClose}
             />
-            <Button component='label' className={classes.button} color='inherit'>
+            <Button component='label' className={classes.button} color='primary'>
               Open UI Schema File
               <FolderOpen className={classes.rightIcon} />
               <input
@@ -172,7 +182,7 @@ class EditorBar extends
             </Button>
             <Button
               className={classes.button}
-              color='inherit'
+              color='primary'
               onClick={this.handleExportDialogOpen}
             >
               Export UI Schema
@@ -183,7 +193,7 @@ class EditorBar extends
               readOnly={true}
               onClose={this.handleExportDialogClose}
             />
-            <Button className={classes.button} color='inherit' onClick={this.handleDownload}>
+            <Button className={classes.button} color='primary' onClick={this.handleDownload}>
               Download UI Schema
               <FileDownload className={classes.rightIcon} />
             </Button>
@@ -209,6 +219,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default compose(
+  withTheme(),
   withStyles(styles, { name: 'EditorBar' }),
   connect(mapStateToProps, mapDispatchToProps)
 )(EditorBar);

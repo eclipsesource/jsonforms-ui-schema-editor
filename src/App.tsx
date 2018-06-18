@@ -4,6 +4,22 @@ import EditorBar from './editor/app-bar/EditorBar';
 import JsonEditorIde from './editor/JsonEditorIde';
 import { getData, getSchema, getUiSchema } from '@jsonforms/core';
 import { calculateLabel, filterPredicate, imageGetter } from './index';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+  palette: {
+    type: 'dark',
+    primary: {
+      main: '#FFFFFF'
+    },
+    background: {
+      'default': '#1e1e1e'
+    }
+  },
+  typography: {
+    fontSize: 12
+  },
+});
 
 interface AppProps {
   uischema: any;
@@ -20,16 +36,18 @@ class App extends React.Component<AppProps, {}> {
     const { rootData, uischema, schema } = this.props;
 
     return (
-      <div>
-        <EditorBar schema={schema} rootData={rootData}/>
-        <JsonEditorIde
-          uischema={uischema}
-          schema={schema}
-          filterPredicate={filterPredicate}
-          labelProvider={calculateLabel}
-          imageProvider={imageGetter}
-        />
-      </div>
+      <MuiThemeProvider theme={theme}>
+        <div>
+            <EditorBar schema={schema} rootData={rootData}/>
+            <JsonEditorIde
+              uischema={uischema}
+              schema={schema}
+              filterPredicate={filterPredicate}
+              labelProvider={calculateLabel}
+              imageProvider={imageGetter}
+            />
+        </div>
+      </MuiThemeProvider>
     );
   }
 }
