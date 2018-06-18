@@ -8,6 +8,7 @@
     "@jsonforms/core": "file:jsonforms-core-2.0.1.tgz",
     "@jsonforms/editor": "file:jsonforms-editor-2.0.1.tgz",
     "@jsonforms/material-renderers": "file:jsonforms-material-renderers-2.0.1.tgz",
+    "@jsonforms/react": "file:jsonforms-react-2.0.1.tgz",
     "@material-ui/core": "1.0.0",
     "@material-ui/icons": "1.0.0",
     "@types/lodash": "^4.14.106",
