@@ -43,10 +43,11 @@ interface EnumFieldState {
 export class ExpectedValueField extends
   React.Component <EnumFieldProps, EnumFieldState> {
 
-  componentWillMount() {
-    this.setState({
+  constructor(props) {
+    super(props);
+    this.state = {
       selectedType: ''
-    });
+    };
   }
 
   selectionHandle = (path, value) => {
