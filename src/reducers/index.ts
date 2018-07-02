@@ -1,4 +1,4 @@
-import { JsonSchema } from '@jsonforms/core';
+import { JsonSchema7 } from '@jsonforms/core';
 
 export const SET_MODEL_SCHEMA:
   'jsonforms/uiEditor/SET_MODEL_SCHEMA' = 'jsonforms/uiEditor/SET_MODEL_SCHEMA';
@@ -23,7 +23,7 @@ export interface UIEditorState {
   /**
    * The data schema that can be used alongside the generated UIschema
    */
-  modelSchema: JsonSchema;
+  modelSchema: JsonSchema7;
 }
 
 export const uiEditorReducer = (

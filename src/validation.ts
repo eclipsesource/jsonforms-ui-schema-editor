@@ -1,8 +1,6 @@
 import * as AJV from 'ajv';
 import { ErrorObject } from 'ajv';
-// TODO migrate to draft 7
-// import { JsonSchema } from './models/jsonSchema';
-import { JsonSchema4 } from '@jsonforms/core';
+import { JsonSchema7 } from '@jsonforms/core';
 
 const ajv = new AJV({allErrors: true, verbose: true});
 
@@ -19,7 +17,7 @@ const extractErrors = (errors: ErrorObject[]): ValidationErrors[] =>
     };
   });
 
-export const validate = (uiMetaSchema: JsonSchema4) => {
+export const validate = (uiMetaSchema: JsonSchema7) => {
   const validator = ajv.compile(uiMetaSchema);
   return (uischema: any) => {
     const valid = validator(uischema);
