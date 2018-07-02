@@ -1,8 +1,7 @@
-import { JsonSchema4 } from '@jsonforms/core';
-// TODO add schema version 7
-export const uiMetaSchema: JsonSchema4 = {
+import { JsonSchema7 } from '@jsonforms/core';
+export const uiMetaSchema: JsonSchema7 = {
   'type': 'object',
-  'id': '#root',
+  '$id': '#root',
   'properties': {
     'type': {
       'type': 'string',
@@ -26,7 +25,7 @@ export const uiMetaSchema: JsonSchema4 = {
   'definitions': {
     'elements': {
       'type': 'array',
-      'id': '#elements',
+      '$id': '#elements',
       'items': {
         'anyOf': [
           {
@@ -52,7 +51,7 @@ export const uiMetaSchema: JsonSchema4 = {
     },
     'control': {
       'type': 'object',
-      'id': '#control',
+      '$id': '#control',
       'properties': {
         'type': {
           'type': 'string',
@@ -79,7 +78,7 @@ export const uiMetaSchema: JsonSchema4 = {
     },
     'horizontallayout': {
       'type': 'object',
-      'id': '#horizontallayout',
+      '$id': '#horizontallayout',
       'properties': {
         'type': {
           'type': 'string',
@@ -100,7 +99,7 @@ export const uiMetaSchema: JsonSchema4 = {
     },
     'verticallayout': {
       'type': 'object',
-      'id': '#verticallayout',
+      '$id': '#verticallayout',
       'properties': {
         'type': {
           'type': 'string',
@@ -121,7 +120,7 @@ export const uiMetaSchema: JsonSchema4 = {
     },
     'categorization': {
       'type': 'object',
-      'id': '#categorization',
+      '$id': '#categorization',
       'properties': {
         'type': {
           'type': 'string',
@@ -142,7 +141,7 @@ export const uiMetaSchema: JsonSchema4 = {
     },
     'category': {
       'type': 'object',
-      'id': '#category',
+      '$id': '#category',
       'properties': {
         'label': {
           'type': 'string'
@@ -166,7 +165,7 @@ export const uiMetaSchema: JsonSchema4 = {
     },
     'group': {
       'type': 'object',
-      'id': '#group',
+      '$id': '#group',
       'properties': {
         'type': {
           'type': 'string',
@@ -188,7 +187,7 @@ export const uiMetaSchema: JsonSchema4 = {
     },
     'rule': {
       'type': 'object',
-      'id': '#rule',
+      '$id': '#rule',
       'properties': {
         'effect': {
           'type': 'string',
@@ -232,16 +231,15 @@ export const uiMetaSchema: JsonSchema4 = {
     },
     'scope': {
       'type': 'string',
-      'id': '#scope',
+      '$id': '#scope',
       'pattern': '^#\\/properties\\/{1}'
     },
     'options': {
       'type': 'object',
-      'id': '#options',
+      '$id': '#options',
       'additionalProperties': true
     }
   },
-  'additionalProperties': false,
   'required': [
     'elements',
     'type'
