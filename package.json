@@ -5,10 +5,10 @@
   "bugs": "https://github.com/eclipsesource/jsonforms-ui-schema-editor/issues",
   "homepage": "https://AhmetTanakol.github.io/jsonforms-ui-schema-editor/",
   "dependencies": {
-    "@jsonforms/core": "file:jsonforms-core-2.0.2.tgz",
-    "@jsonforms/editor": "file:jsonforms-editor-2.0.2.tgz",
-    "@jsonforms/material-renderers": "file:jsonforms-material-renderers-2.0.2.tgz",
-    "@jsonforms/react": "file:jsonforms-react-2.0.2.tgz",
+    "@jsonforms/core": "^2.0.6",
+    "@jsonforms/material-renderers": "^2.0.6",
+    "@jsonforms/material-tree-renderer": "^2.0.6",
+    "@jsonforms/react": "^2.0.6",
     "@material-ui/core": "^1.2.1",
     "@material-ui/icons": "^1.0.0",
     "@types/lodash": "^4.14.106",
@@ -43,7 +43,8 @@
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "testPathIgnorePatterns": [
       "/node_modules/"
-    ]
+    ],
+    "testURL": "http://localhost/"
   },
   "devDependencies": {
     "@types/jest": "^22.2.2",

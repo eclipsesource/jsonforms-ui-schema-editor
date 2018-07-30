@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { TreeRenderer } from '@jsonforms/editor';
-import './jsoneditor.css';
+import { TreeWithDetailRenderer } from '@jsonforms/material-tree-renderer';
 import './example.css';
 
 const JsonFormsEditorIde = props => {
@@ -9,7 +8,7 @@ const JsonFormsEditorIde = props => {
 
   return (
     <div>
-      <TreeRenderer
+      <TreeWithDetailRenderer
         uischema={uischema}
         schema={schema}
         filterPredicate={filterPredicate}
