@@ -37,8 +37,7 @@ const styles:
     marginLeft: theme.spacing.unit
   },
   button: {
-    margin: theme.spacing.unit,
-    color: theme.palette.text.primary
+    margin: theme.spacing.unit
   }
 });
 
@@ -159,10 +158,10 @@ class EditorBar extends
       <div className={classes.root}>
         <AppBar className={classes.appBar} position='static'>
           <Toolbar>
-            <Typography variant='title' color='primary' className={classes.flex}>
+            <Typography variant='title' color='inherit' className={classes.flex}>
               UI Schema Editor
             </Typography>
-            <Button className={classes.button} color='primary' onClick={this.handleModelSchemaOpen}>
+            <Button className={classes.button} color='inherit' onClick={this.handleModelSchemaOpen}>
               Upload Schema Model/Domain
               <FileUpload className={classes.rightIcon} />
             </Button>
@@ -171,7 +170,7 @@ class EditorBar extends
               readOnly={false}
               onClose={this.handleModelSchemaClose}
             />
-            <Button component='label' className={classes.button} color='primary'>
+            <Button component='label' className={classes.button} color='inherit'>
               Open UI Schema File
               <FolderOpen className={classes.rightIcon} />
               <input
@@ -182,7 +181,7 @@ class EditorBar extends
             </Button>
             <Button
               className={classes.button}
-              color='primary'
+              color='inherit'
               onClick={this.handleExportDialogOpen}
             >
               Export UI Schema
@@ -193,7 +192,7 @@ class EditorBar extends
               readOnly={true}
               onClose={this.handleExportDialogClose}
             />
-            <Button className={classes.button} color='primary' onClick={this.handleDownload}>
+            <Button className={classes.button} color='inherit' onClick={this.handleDownload}>
               Download UI Schema
               <FileDownload className={classes.rightIcon} />
             </Button>

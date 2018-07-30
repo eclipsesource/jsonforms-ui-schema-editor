@@ -72,7 +72,9 @@ export class ExpectedValueField extends
       <React.Fragment>
         <MaterialEnumField
           {...this.props}
-          data={this.state.selectedType !== '' ? this.state.selectedType : ''}
+          path=''
+          data={this.state.selectedType}
+          uischema={localUISchema}
           handleChange={this.selectionHandle}
         />
         {

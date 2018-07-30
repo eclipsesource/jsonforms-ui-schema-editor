@@ -14,11 +14,11 @@ import {
   RankedTester
 } from '@jsonforms/core';
 import {
-  editorReducer,
   findAllContainerProperties,
   Property,
-  setContainerProperties
-} from '@jsonforms/editor';
+  setContainerProperties,
+  treeWithDetailReducer
+} from '@jsonforms/material-tree-renderer';
 import { uiEditorReducer } from './reducers';
 import NonEmptyLayoutRenderer, { nonEmptyLayoutTester } from './editor/util/NonEmptyLayout';
 import ExpectedValueField, {
@@ -99,7 +99,7 @@ const jsonforms: any = {
   jsonforms: {
     renderers,
     fields,
-    editor: {
+    treeWithDetail: {
       imageMapping: imageProvider,
       labelMapping: labelProvider,
       modelMapping,
@@ -115,7 +115,7 @@ const store: Store<any> = createStore(
   combineReducers({
     jsonforms: jsonformsReducer(
       {
-        editor: editorReducer,
+        treeWithDetail: treeWithDetailReducer,
         uiEditor: uiEditorReducer
       }
     )
