@@ -11,7 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
 import { getData, getUiSchema } from '@jsonforms/core';
 import PreviewDialog from './PreviewDialog';
-import { getModelSchema, setModelSchema } from '../../../reducers';
+import { setModelSchema } from '../../../reducers';
 
 const styles: StyleRulesCallback<'textarea'> = () => ({
   textarea: {
@@ -27,7 +27,6 @@ interface ModelSchemaDialogProps {
   onClose: any;
   readOnly: boolean;
   open: boolean;
-  modelSchema?: any;
   setModelSchema?: any;
   fullScreen?: boolean;
   rootData?: any;
@@ -35,22 +34,21 @@ interface ModelSchemaDialogProps {
 
 interface ModelSchemaDialogState {
   modelSchema: any;
+  inputValue: string;
   preview: {
     open: boolean
   };
-  textInput: any;
 }
 
 class ModelSchemaDialog extends
   React.Component<ModelSchemaDialogProps & WithStyles<'textarea'>, ModelSchemaDialogState> {
   private textInput;
   componentWillMount() {
-    const { modelSchema } = this.props;
-    this.textInput = null;
+    this.textInput = {};
 
     this.setState({
-      modelSchema: modelSchema,
-      textInput: null,
+      modelSchema: {},
+      inputValue: '{}',
       preview: {
         open: false
       }
@@ -58,17 +56,9 @@ class ModelSchemaDialog extends
   }
 
   handleChange = event => {
-    try {
-      const modelSchema = JSON.parse(event.target.value);
-      this.setState({
-        modelSchema: modelSchema
-      });
-    } catch (err) {
-      console.error('The entered text did not contain valid JSON.', err);
-      alert(`The entered text does not contain valid JSON`);
-
-      return;
-    }
+    this.setState({
+      inputValue: event.target.value
+    });
   }
 
   handleCancel = () => {
@@ -81,11 +71,20 @@ class ModelSchemaDialog extends
   }
 
   handlePreviewOpen = () => {
-    this.setState({
-      preview: {
-        open: true
-      }
-    });
+    try {
+      const modelSchema = JSON.parse(this.textInput.value);
+      this.setState({
+        preview: {
+          open: true
+        },
+        modelSchema: modelSchema
+      });
+    } catch (err) {
+      console.error('The entered text did not contain valid JSON.', err);
+      alert(`The entered text does not contain valid JSON`);
+
+      return;
+    }
   }
 
   handlePreviewClose = () => {
@@ -105,7 +104,8 @@ class ModelSchemaDialog extends
     const { classes, fullScreen, open, rootData, readOnly } = this.props;
     const textFieldData = readOnly ?
       JSON.stringify(rootData, null, 2) :
-      JSON.stringify(this.state.modelSchema, null, 2);
+      this.state.inputValue;
+    const disabled = this.state.inputValue === '{}' || this.state.inputValue === '';
 
     return (
       <Dialog open={open} fullScreen={fullScreen}>
@@ -141,7 +141,11 @@ class ModelSchemaDialog extends
                 <Button onClick={this.handleOk} color='primary'>
                   Ok
                 </Button>
-                <Button onClick={this.handlePreviewOpen} color='primary'>
+                <Button
+                  disabled={disabled}
+                  onClick={this.handlePreviewOpen}
+                  color='primary'
+                >
                   Preview
                 </Button>
               </div>
@@ -168,7 +172,6 @@ const mapStateToProps = (state, ownProps) => {
     onClose: ownProps.onClose,
     readOnly: ownProps.readOnly,
     open: ownProps.open,
-    modelSchema: getModelSchema(state),
     uischema: getUiSchema(state)
   };
 };

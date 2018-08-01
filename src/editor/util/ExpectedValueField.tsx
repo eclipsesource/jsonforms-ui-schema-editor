@@ -8,7 +8,8 @@ import {
   rankWith,
   schemaSubPathMatches,
   StatePropsOfEnumField,
-  uiTypeIs
+  uiTypeIs,
+  update
 } from '@jsonforms/core';
 import * as _ from 'lodash';
 import { MaterialEnumField } from '@jsonforms/material-renderers';
@@ -40,8 +41,12 @@ interface EnumFieldState {
   selectedType: string;
 }
 
+interface ExpectedValueFieldProps extends EnumFieldProps {
+  updateRootData: any;
+}
+
 export class ExpectedValueField extends
-  React.Component <EnumFieldProps, EnumFieldState> {
+  React.Component <ExpectedValueFieldProps, EnumFieldState> {
 
   constructor(props) {
     super(props);
@@ -51,6 +56,11 @@ export class ExpectedValueField extends
   }
 
   selectionHandle = (path, value) => {
+    if (value === 'boolean') {
+      this.props.updateRootData(this.props.path, false);
+    } else {
+      this.props.updateRootData(this.props.path, undefined);
+    }
     this.setState({
       selectedType: value
     });
@@ -91,6 +101,13 @@ export class ExpectedValueField extends
   }
 }
 
+const mapDispatchToEnumFieldProps = dispatch => ({
+  updateRootData(path, value) {
+    dispatch(update(path, () => value));
+  }
+});
+
 export default connect(
-  mapStateToEnumFieldProps
+  mapStateToEnumFieldProps,
+  mapDispatchToEnumFieldProps
 )(ExpectedValueField);

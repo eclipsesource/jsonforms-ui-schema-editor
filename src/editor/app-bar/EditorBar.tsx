@@ -2,7 +2,6 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import * as _ from 'lodash';
-import * as AJV from 'ajv';
 import {
   StyleRulesCallback,
   withStyles,
@@ -19,8 +18,7 @@ import FolderOpen from '@material-ui/icons/FolderOpen';
 import ImportExport from '@material-ui/icons/ImportExport';
 import ModelSchemaDialog from './dialogs/ModelSchemaDialog';
 import { Actions } from '@jsonforms/core';
-
-const ajv = new AJV({allErrors: true, verbose: true});
+import { validate } from '../../validation';
 
 const styles:
   StyleRulesCallback<'root' | 'flex' | 'rightIcon' | 'button' | 'appBar'> = theme => ({
@@ -137,8 +135,9 @@ class EditorBar extends
         return;
       }
       if (!_.isEmpty(readData)) {
-        const valid = ajv.validate(schema, readData);
-        if (valid) {
+        const validator = validate(schema);
+        const errors = validator(readData);
+        if (_.isEmpty(errors)) {
           this.props.updateRootData(readData);
         } else {
           alert('Loaded data does not adhere to the specified schema.');
