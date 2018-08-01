@@ -203,7 +203,8 @@ export const uiMetaSchema: JsonSchema7 = {
           'properties': {
             'type': {
               'type': 'string',
-              'const': 'LEAF'
+              'const': 'LEAF',
+              'default': 'LEAF'
             },
             'scope': {
               '$ref': '#/definitions/scope'
@@ -224,10 +225,10 @@ export const uiMetaSchema: JsonSchema7 = {
           ]
         }
       },
-      'required': [
-        'effect',
-        'condition'
-      ]
+      'dependencies': {
+        'effect': ['condition'],
+        'condition': ['effect']
+      }
     },
     'scope': {
       'type': 'string',
