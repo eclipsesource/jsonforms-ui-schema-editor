@@ -81,14 +81,14 @@ export const uiMetaSchema: JsonSchema7 = {
           'scope': 'Control scope should match pattern "^#\\/properties\\/{1}"',
           'suggestion': 'Control suggestion should be array',
           'options': 'Control options should be object',
-          'label': 'Control label should be string,boolean or label object'
+          'label': 'Control label should be string, boolean or label object'
         },
         'required': {
           'scope': 'Control should have an object property "scope"',
-          'type': 'Control should have an object property "type"'
+          'type': 'Control should have an object property "string"'
         },
         'additionalProperties': 'Control should not have properties ' +
-                                'other than type,label,scope,options,suggestion and rule'
+                                'other than type, label, scope, options, suggestion and rule'
       }
     },
     'horizontallayout': {
@@ -279,12 +279,12 @@ export const uiMetaSchema: JsonSchema7 = {
           ]
         }
       },
-      'required': [
-        'effect',
-        'condition'
-      ],
+      'dependencies': {
+        'effect': ['condition'],
+        'condition': ['effect']
+      },
       'errorMessage': {
-        'required': {
+        'dependencies': {
           'effect': 'Effect has to de defined',
           'condition': 'Condition has to be defined',
         }
@@ -313,9 +313,9 @@ export const uiMetaSchema: JsonSchema7 = {
     },
     'required': {
       'elements': 'Root should have an array property "elements"',
-      'type': 'Root should have an object property "type"'
+      'type': 'Root should have an object property "string"'
     },
     'additionalProperties': 'Root should not have properties ' +
-                            'other than type,elements,label and rule'
+                            'other than type, elements, label and rule'
   }
 };
