@@ -85,7 +85,7 @@ export const uiMetaSchema: JsonSchema7 = {
         },
         'required': {
           'scope': 'Control should have an object property "scope"',
-          'type': 'Control should have an object property "string"'
+          'type': 'Control should have a string property "type"'
         },
         'additionalProperties': 'Control should not have properties ' +
                                 'other than type, label, scope, options, suggestion and rule'
@@ -313,7 +313,7 @@ export const uiMetaSchema: JsonSchema7 = {
     },
     'required': {
       'elements': 'Root should have an array property "elements"',
-      'type': 'Root should have an object property "string"'
+      'type': 'Root should have a string property "type"'
     },
     'additionalProperties': 'Root should not have properties ' +
                             'other than type, elements, label and rule'
