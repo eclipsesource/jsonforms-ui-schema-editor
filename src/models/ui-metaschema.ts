@@ -1,5 +1,7 @@
 import { JsonSchema7 } from '@jsonforms/core';
+
 export const uiMetaSchema: JsonSchema7 = {
+  '$schema': 'http://json-schema.org/draft-07/schema',
   'type': 'object',
   '$id': '#root',
   'properties': {
@@ -71,10 +73,23 @@ export const uiMetaSchema: JsonSchema7 = {
           '$ref': '#/definitions/rule'
         }
       },
-      'required': [
-        'type',
-        'scope'
-      ]
+      'required': ['type', 'scope'],
+      'additionalProperties': false,
+      'errorMessage': {
+        'properties': {
+          'type': 'type should be equal to one of the allowed values',
+          'scope': 'Control scope should match pattern "^#\\/properties\\/{1}"',
+          'suggestion': 'Control suggestion should be array',
+          'options': 'Control options should be object',
+          'label': 'Control label should be string, boolean or label object'
+        },
+        'required': {
+          'scope': 'Control should have an object property "scope"',
+          'type': 'Control should have a string property "type"'
+        },
+        'additionalProperties': 'Control should not have properties ' +
+                                'other than type, label, scope, options, suggestion and rule'
+      }
     },
     'horizontallayout': {
       'type': 'object',
@@ -92,10 +107,18 @@ export const uiMetaSchema: JsonSchema7 = {
           '$ref': '#/definitions/rule'
         }
       },
-      'required': [
-        'type',
-        'elements'
-      ]
+      'required': ['type', 'elements'],
+      'additionalProperties': false,
+      'errorMessage': {
+        'properties': {
+          'type': 'type should be equal to one of the allowed values'
+        },
+        'required': {
+          'elements': 'Layout should have an array property "elements"',
+          'type': 'Layout should have a string property "type"'
+        },
+        'additionalProperties': 'Layout should not have properties other than type and elements'
+      }
     },
     'verticallayout': {
       'type': 'object',
@@ -137,7 +160,19 @@ export const uiMetaSchema: JsonSchema7 = {
       'required': [
         'type',
         'elements'
-      ]
+      ],
+      'additionalProperties': false,
+      'errorMessage': {
+        'properties': {
+          'type': 'type should be equal to one of the allowed values'
+        },
+        'required': {
+          'elements': 'Categorization should have an array property "elements"',
+          'type': 'Categorization should have a string property "type"'
+        },
+        'additionalProperties': 'Categorization should not have properties ' +
+                                'other than type and elements'
+      }
     },
     'category': {
       'type': 'object',
@@ -158,10 +193,19 @@ export const uiMetaSchema: JsonSchema7 = {
           '$ref': '#/definitions/rule'
         }
       },
-      'required': [
-        'type',
-        'elements'
-      ]
+      'additionalProperties': false,
+      'errorMessage': {
+        'properties': {
+          'type': 'type should be equal to one of the allowed values',
+          'label': 'Category label should be string'
+        },
+        'required': {
+          'type': 'Category layout should have a string property "type"',
+          'elements': 'Category layout should have an array property "elements"'
+        },
+        'additionalProperties': 'Category layout should not have properties ' +
+                                'other than type,elements and label'
+      }
     },
     'group': {
       'type': 'object',
@@ -179,11 +223,21 @@ export const uiMetaSchema: JsonSchema7 = {
           'type': 'string'
         }
       },
-      'required': [
-        'type',
-        'elements',
-        'label'
-      ]
+      'required': ['type', 'elements', 'label'],
+      'additionalProperties': false,
+      'errorMessage': {
+        'properties': {
+          'type': 'type should be equal to one of the allowed values',
+          'label': 'Group label should be string'
+        },
+        'required': {
+          'type': 'Group layout should have a string property "type"',
+          'elements': 'Group layout should have an array property "elements"',
+          'label': 'Group layout should have a string property "label"'
+        },
+        'additionalProperties': 'Group layout should not have properties ' +
+                                'other than type,elements and label'
+      }
     },
     'rule': {
       'type': 'object',
@@ -228,6 +282,12 @@ export const uiMetaSchema: JsonSchema7 = {
       'dependencies': {
         'effect': ['condition'],
         'condition': ['effect']
+      },
+      'errorMessage': {
+        'dependencies': {
+          'effect': 'Effect has to de defined',
+          'condition': 'Condition has to be defined',
+        }
       }
     },
     'scope': {
@@ -244,5 +304,18 @@ export const uiMetaSchema: JsonSchema7 = {
   'required': [
     'elements',
     'type'
-  ]
+  ],
+  'additionalProperties': false,
+  'errorMessage': {
+    'properties': {
+      'type': 'Root type should be equal to one of the allowed values',
+      'label': 'Root label should be string'
+    },
+    'required': {
+      'elements': 'Root should have an array property "elements"',
+      'type': 'Root should have a string property "type"'
+    },
+    'additionalProperties': 'Root should not have properties ' +
+                            'other than type, elements, label and rule'
+  }
 };
