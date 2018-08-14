@@ -16,7 +16,6 @@ import { setModelSchema } from '../../../reducers';
 const styles: StyleRulesCallback<'textarea'> = () => ({
   textarea: {
     width: 400,
-    height: 600,
     whiteSpace: 'pre-wrap',
     overflowWrap: 'normal',
     overflowX: 'scroll'
