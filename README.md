@@ -1,4 +1,4 @@
-# Jsonforms UISchema Editor
+# Jsonforms UISchema Editor (WIP)
 
 ## Continuous Integration
 The Jsonforms UI Schema Editor project is build and tested via [Travis](https://travis-ci.org/). Coverage is documented by [Coveralls](https://coveralls.io).
