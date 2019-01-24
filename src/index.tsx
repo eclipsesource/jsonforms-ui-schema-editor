@@ -14,10 +14,7 @@ import {
   RankedTester
 } from '@jsonforms/core';
 import {
-  findAllContainerProperties,
   Property,
-  setContainerProperties,
-  treeWithDetailReducer
 } from '@jsonforms/material-tree-renderer';
 import { uiEditorReducer } from './reducers';
 import NonEmptyLayoutRenderer, { nonEmptyLayoutTester } from './editor/util/NonEmptyLayout';
@@ -99,12 +96,6 @@ const jsonforms: any = {
   jsonforms: {
     renderers,
     fields,
-    treeWithDetail: {
-      imageMapping: imageProvider,
-      labelMapping: labelProvider,
-      modelMapping,
-      uiSchemata: {}
-    },
     uiEditor: {
       modelSchema: {}
     }
@@ -115,7 +106,6 @@ const store: Store<any> = createStore(
   combineReducers({
     jsonforms: jsonformsReducer(
       {
-        treeWithDetail: treeWithDetailReducer,
         uiEditor: uiEditorReducer
       }
     )
@@ -130,17 +120,16 @@ JsonRefs.resolveRefs(uiMetaSchema)
   .then(
     resolvedSchema => {
       store.dispatch(Actions.init({}, resolvedSchema.resolved, uischema));
-
       store.dispatch(Actions.registerRenderer(nonEmptyLayoutTester, NonEmptyLayoutRenderer));
-
       store.dispatch(Actions.registerField(ExpectedValueFieldTester, ExpectedValueField));
-
-      store.dispatch(setContainerProperties(findAllContainerProperties(resolvedSchema.resolved,
-                                                                       resolvedSchema.resolved)));
 
       ReactDOM.render(
         <Provider store={store}>
-          <App />
+          <App 
+            filterPredicate={filterPredicate}
+            labelProvider={calculateLabel}
+            imageProvider={imageGetter}
+          />
         </Provider>,
         document.getElementById('app'));
       registerServiceWorker();

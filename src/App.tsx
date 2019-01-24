@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import EditorBar from './editor/app-bar/EditorBar';
 import JsonEditorIde from './editor/JsonEditorIde';
 import { getData, getSchema, getUiSchema } from '@jsonforms/core';
-import { calculateLabel, filterPredicate, imageGetter } from './index';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
@@ -33,7 +32,7 @@ interface AppProps {
 class App extends React.Component<AppProps, {}> {
 
   render() {
-    const { rootData, uischema, schema } = this.props;
+    const { rootData, uischema, schema, filterPredicate, labelProvider, imageProvider } = this.props;
 
     return (
       <MuiThemeProvider theme={theme}>
@@ -43,8 +42,8 @@ class App extends React.Component<AppProps, {}> {
               uischema={uischema}
               schema={schema}
               filterPredicate={filterPredicate}
-              labelProvider={calculateLabel}
-              imageProvider={imageGetter}
+              labelProvider={labelProvider}
+              imageProvider={imageProvider}
             />
         </div>
       </MuiThemeProvider>

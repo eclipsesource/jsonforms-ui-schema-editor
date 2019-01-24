@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { TreeWithDetailRenderer } from '@jsonforms/material-tree-renderer';
 import './example.css';
+import { JsonSchema } from '@jsonforms/core';
 
 const JsonFormsEditorIde = props => {
   const { imageProvider, labelProvider, uischema, schema, filterPredicate} = props;
@@ -12,7 +13,10 @@ const JsonFormsEditorIde = props => {
         uischema={uischema}
         schema={schema}
         filterPredicate={filterPredicate}
-        labelProvider={labelProvider}
+        labelProviders={{
+          forData: labelProvider,
+          forSchema: (schema: JsonSchema, schemaPath: string) => schemaPath
+        }}
         imageProvider={imageProvider}
       />
     </div>

@@ -1,4 +1,4 @@
-import * as AJV from 'ajv';
+import AJV from 'ajv';
 import { ErrorObject } from 'ajv';
 import { JsonSchema7 } from '@jsonforms/core';
 import * as AjvErrors from 'ajv-errors'; // tslint:disable-line
