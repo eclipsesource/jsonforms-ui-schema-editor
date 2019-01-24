@@ -12,8 +12,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import FileUpload from '@material-ui/icons/FileUpload';
-import FileDownload from '@material-ui/icons/FileDownload';
 import FolderOpen from '@material-ui/icons/FolderOpen';
 import ImportExport from '@material-ui/icons/ImportExport';
 import ModelSchemaDialog from './dialogs/ModelSchemaDialog';
@@ -127,7 +125,7 @@ class EditorBar extends
       }
       let readData;
       try {
-        readData = JSON.parse(reader.result);
+        readData = JSON.parse(reader.result as string);
       } catch (err) {
         console.error('The loaded file did not contain valid JSON.', err);
         alert(`The selected file '${file.name}' does not contain valid JSON`);
@@ -162,7 +160,6 @@ class EditorBar extends
             </Typography>
             <Button className={classes.button} color='inherit' onClick={this.handleModelSchemaOpen}>
               Upload Schema Model/Domain
-              <FileUpload className={classes.rightIcon} />
             </Button>
             <ModelSchemaDialog
               open={this.state.modelSchema.open}
@@ -193,7 +190,6 @@ class EditorBar extends
             />
             <Button className={classes.button} color='inherit' onClick={this.handleDownload}>
               Download UI Schema
-              <FileDownload className={classes.rightIcon} />
             </Button>
 
           </Toolbar>

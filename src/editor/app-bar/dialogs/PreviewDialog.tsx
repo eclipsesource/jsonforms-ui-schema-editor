@@ -70,4 +70,4 @@ class PreviewDialog extends
   }
 }
 
-export default withStyles(styles)<PreviewProps>(PreviewDialog);
+export default withStyles(styles)(PreviewDialog);
