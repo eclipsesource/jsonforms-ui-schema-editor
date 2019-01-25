@@ -15,7 +15,7 @@ const JsonFormsEditorIde = props => {
         filterPredicate={filterPredicate}
         labelProviders={{
           forData: labelProvider,
-          forSchema: (schema: JsonSchema, schemaPath: string) => schemaPath
+          forSchema: (schema: JsonSchema, schemaPath: string) => schema.properties['type'].default
         }}
         imageProvider={imageProvider}
       />

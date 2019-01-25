@@ -50,35 +50,42 @@ export const filterPredicate = (data: Object) => {
   };
 };
 
-export const calculateLabel =
-  (schema: JsonSchema7) => (element: Object): string => {
+const getLabelWithProvider = (schema: JsonSchema7, element:Object): string => {
+  if (!_.isEmpty(labelProvider) && labelProvider[schema.$id] !== undefined) {
 
-    if (!_.isEmpty(labelProvider) && labelProvider[schema.$id] !== undefined) {
-
-      if (typeof labelProvider[schema.$id] === 'string') {
-        // To be backwards compatible: a simple string is assumed to be a property name
-        return element[labelProvider[schema.$id]];
+    if (typeof labelProvider[schema.$id] === 'string') {
+      // To be backwards compatible: a simple string is assumed to be a property name
+      return element[labelProvider[schema.$id]];
+    }
+    if (typeof labelProvider[schema.$id] === 'object') {
+      const info = labelProvider[schema.$id] as LabelDefinition;
+      let label;
+      if (info.constant !== undefined) {
+        label = info.constant;
       }
-      if (typeof labelProvider[schema.$id] === 'object') {
-        const info = labelProvider[schema.$id] as LabelDefinition;
-        let label;
-        if (info.constant !== undefined) {
-          label = info.constant;
-        }
-        if (!_.isEmpty(info.property) && !_.isEmpty(element[info.property])) {
-          label = _.isEmpty(label) ?
-            element[info.property] :
-            `${label} ${element[info.property]}`;
-        }
-        if (label !== undefined) {
-          return label;
-        }
+      if (!_.isEmpty(info.property) && !_.isEmpty(element[info.property])) {
+        label = _.isEmpty(label) ?
+          element[info.property] :
+          `${label} ${element[info.property]}`;
+      }
+      if (label !== undefined) {
+        return label;
       }
     }
+  }
+  return undefined;
+}
 
+export const calculateLabel =
+  (schema: JsonSchema7,element: Object): string => {
+
+    const label = getLabelWithProvider(schema, element);
+    if(label) {
+      return label;
+    }
     const namingKeys = Object
       .keys(schema.properties)
-      .filter(key => key === '$id' || key === 'name');
+      .filter(key => key === '$id' || key === 'name'|| key === 'type');
     if (namingKeys.length !== 0) {
       return element[namingKeys[0]];
     }
@@ -86,8 +93,8 @@ export const calculateLabel =
     return JSON.stringify(element);
   };
 
-export const imageGetter = (schemaId: string) =>
-  !_.isEmpty(imageProvider) ? `icon ${imageProvider[schemaId]}` : '';
+export const imageGetter = (schema: JsonSchema7) =>
+  !_.isEmpty(imageProvider) ? `icon ${imageProvider[schema.$id]}` : '';
 
 const renderers: { tester: RankedTester, renderer: any}[] = materialRenderers;
 const fields: { tester: RankedTester, field: any}[] = materialFields;
@@ -119,7 +126,7 @@ const store: Store<any> = createStore(
 JsonRefs.resolveRefs(uiMetaSchema)
   .then(
     resolvedSchema => {
-      store.dispatch(Actions.init({}, resolvedSchema.resolved, uischema));
+      store.dispatch(Actions.init({type:'VerticalLayout'}, resolvedSchema.resolved, uischema));
       store.dispatch(Actions.registerRenderer(nonEmptyLayoutTester, NonEmptyLayoutRenderer));
       store.dispatch(Actions.registerField(ExpectedValueFieldTester, ExpectedValueField));
 
