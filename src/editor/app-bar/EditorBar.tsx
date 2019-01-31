@@ -72,7 +72,7 @@ class EditorBar extends
         open: true
       }
     });
-  }
+  };
 
   handleModelSchemaClose = () => {
     this.setState({
@@ -80,7 +80,7 @@ class EditorBar extends
         open: false
       }
     });
-  }
+  };
 
   handleExportDialogOpen = () => {
     this.setState({
@@ -88,7 +88,7 @@ class EditorBar extends
         open: true
       }
     });
-  }
+  };
 
   handleExportDialogClose = () => {
     this.setState({
@@ -96,7 +96,7 @@ class EditorBar extends
         open: false
       }
     });
-  }
+  };
 
   handleDownload = () => {
     const a = document.createElement('a');
@@ -105,7 +105,7 @@ class EditorBar extends
     a.href = URL.createObjectURL(file);
     a.download = 'download.json';
     a.click();
-  }
+  };
 
   handleFileUpload = event => {
     // triggered after a file was selected
@@ -135,19 +135,16 @@ class EditorBar extends
       if (!_.isEmpty(readData)) {
         const validator = validate(schema);
         const errors = validator(readData);
-        if (_.isEmpty(errors)) {
-          this.props.updateRootData(readData);
-        } else {
+        this.props.updateRootData(readData);
+        if (errors) {
           alert('Loaded data does not adhere to the specified schema.');
           console.error('Loaded data does not adhere to the specified schema.');
-
-          return;
         }
       }
     };
 
     reader.readAsText(file);
-  }
+  };
 
   render() {
     const { classes } = this.props;
