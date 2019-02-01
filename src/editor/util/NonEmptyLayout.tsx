@@ -12,8 +12,8 @@ import { RendererComponent } from '@jsonforms/react';
 import * as _ from 'lodash';
 
 const isLayout = (uischema: UISchemaElement): uischema is Layout => {
-  return (uischema as Layout).elements !== undefined
-}
+  return (uischema as Layout).elements !== undefined;
+};
 
 /**
  * Checks whether the given UI schema contains only label field or not.

@@ -50,7 +50,7 @@ export const filterPredicate = (data: Object) => {
   };
 };
 
-const getLabelWithProvider = (schema: JsonSchema7, element:Object): string => {
+const getLabelWithProvider = (schema: JsonSchema7, element: Object): string => {
   if (!_.isEmpty(labelProvider) && labelProvider[schema.$id] !== undefined) {
 
     if (typeof labelProvider[schema.$id] === 'string') {
@@ -74,18 +74,18 @@ const getLabelWithProvider = (schema: JsonSchema7, element:Object): string => {
     }
   }
   return undefined;
-}
+};
 
 export const calculateLabel =
-  (schema: JsonSchema7,element: Object): string => {
+  (schema: JsonSchema7, element: Object): string => {
 
     const label = getLabelWithProvider(schema, element);
-    if(label) {
+    if (label) {
       return label;
     }
     const namingKeys = Object
       .keys(schema.properties)
-      .filter(key => key === '$id' || key === 'name'|| key === 'type');
+      .filter(key => key === '$id' || key === 'name' || key === 'type');
     if (namingKeys.length !== 0) {
       return element[namingKeys[0]];
     }
@@ -126,13 +126,13 @@ const store: Store<any> = createStore(
 JsonRefs.resolveRefs(uiMetaSchema)
   .then(
     resolvedSchema => {
-      store.dispatch(Actions.init({type:'VerticalLayout'}, resolvedSchema.resolved, uischema));
+      store.dispatch(Actions.init({type: 'VerticalLayout'}, resolvedSchema.resolved, uischema));
       store.dispatch(Actions.registerRenderer(nonEmptyLayoutTester, NonEmptyLayoutRenderer));
       store.dispatch(Actions.registerField(ExpectedValueFieldTester, ExpectedValueField));
 
       ReactDOM.render(
         <Provider store={store}>
-          <App 
+          <App
             filterPredicate={filterPredicate}
             labelProvider={calculateLabel}
             imageProvider={imageGetter}

@@ -58,16 +58,16 @@ class ModelSchemaDialog extends
     this.setState({
       inputValue: event.target.value
     });
-  }
+  };
 
   handleCancel = () => {
     this.props.onClose();
-  }
+  };
 
   handleOk = () => {
     this.props.setModelSchema(this.state.modelSchema);
     this.props.onClose();
-  }
+  };
 
   handlePreviewOpen = () => {
     try {
@@ -84,7 +84,7 @@ class ModelSchemaDialog extends
 
       return;
     }
-  }
+  };
 
   handlePreviewClose = () => {
     this.setState({
@@ -92,12 +92,12 @@ class ModelSchemaDialog extends
         open: false
       }
     });
-  }
+  };
 
   handleCopy = () => {
     this.textInput.select();
     document.execCommand('copy');
-  }
+  };
 
   render() {
     const { classes, fullScreen, open, rootData, readOnly } = this.props;

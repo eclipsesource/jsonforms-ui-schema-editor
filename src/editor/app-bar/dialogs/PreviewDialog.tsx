@@ -36,7 +36,7 @@ class PreviewDialog extends
 
   handleClose = () => {
     this.props.onClose();
-  }
+  };
 
   render() {
     const { classes, open, path, schema, uischema } = this.props;
